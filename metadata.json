@@ -1,0 +1,6 @@
+{
+  "name": "Sputnik — ABV-IIITM Gwalior Campus Companion",
+  "description": "Deterministic classical ML intent routing, grounded TF-IDF corpus retrieval, and 14-landmark Dijkstra navigation for ABV-IIITM Gwalior.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
