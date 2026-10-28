@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sputnik — ABV-IIITM Gwalior Campus Companion</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&amp;family=Geist:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: #171717;
+      font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .font-mono {
+      font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    /* 1. Header */
+    header.utility-header {
+      height: 56px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ebebeb;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .header-inner {
+      max-width: 768px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #171717;
+    }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      color: #171717;
+    }
+
+    .institute-badge {
+      font-size: 11px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Segmented 2-tab view switcher */
+    .view-switcher {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid #ebebeb;
+      gap: 2px;
+    }
+
+    .view-btn {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .view-btn.active {
+      background-color: #171717;
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    .view-btn.inactive {
+      background-color: transparent;
+      color: #666666;
+    }
+
+    .view-btn.inactive:hover {
+      color: #171717;
+    }
+
+    /* Layout Main */
+    main.app-container {
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 28px 16px 64px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* 2. Query Command Box */
+    .query-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .command-bar {
+      height: 48px;
+      background-color: #ffffff;
+      border: 1px solid #a1a1a1;
+      border-radius: 8px;
+      padding: 0 8px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      gap: 12px;
+    }
+
+    .query-text-display {
+      font-size: 15px;
+      color: #171717;
+      font-weight: 400;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: text;
+    }
+
+    .command-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .model-badge {
+      font-size: 11.5px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+    }
+
+    .submit-button {
+      width: 32px;
+      height: 32px;
+      background-color: #171717;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #000000;
+    }
+
+    /* Prompt Chips */
+    .prompt-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .prompt-chips-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt-chip {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: #4d4d4d;
+      white-space: nowrap;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .prompt-chip:hover {
+      border-color: #a1a1a1;
+      color: #171717;
+    }
+
+    /* 3. Grounded Answer Card */
+    .answer-card {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03), 0 2px 3px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .answer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-badge-facilities {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #047857;
+      background-color: #d1fae5;
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: -0.1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .category-badge-facilities::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #047857;
+      display: inline-block;
+    }
+
+    .telemetry-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .telemetry-pill {
+      font-size: 11.5px;
+      color: #4d4d4d;
+      background-color: #f5f5f5;
+      border: 1px solid #ebebeb;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .answer-content {
+      font-size: 15px;
+      line-height: 24px;
+      color: #171717;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .answer-content p {
+      margin: 0;
+    }
+
+    .citation-tag {
+      font-size: 11.5px;
+      color: #0070f3;
+      background-color: #d3e5ff;
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin: 0 2px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 16px;
+      vertical-align: baseline;
+    }
+
+    .citation-tag:hover {
+      background-color: #0070f3;
+      color: #ffffff;
+    }
+
+    /* 4. Retrieved Passages Section */
+    .excerpts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-eyebrow {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #888888;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .excerpts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .excerpt-card {
+      background-color: #fafafa;
+      border: 1px solid #ebebeb;
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s ease;
+    }
+
+    .excerpt-card:hover {
+      border-color: #a1a1a1;
+    }
+
+    .excerpt-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .excerpt-left-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .doc-id-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #171717;
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .source-link {
+      font-size: 12px;
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+      color: #0761d1;
+    }
+
+    .sim-score-meta {
+      font-size: 11.5px;
+      color: #666666;
+    }
+
+    .excerpt-snippet {
+      font-size: 13.5px;
+      line-height: 20px;
+      color: #4d4d4d;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<!-- 1. Top Utility Header -->
+<header class="utility-header">
+<div class="header-inner">
+<!-- Left: Logo & Wordmark & Monospace Badge -->
+<div class="brand-group">
+<div aria-hidden="true" class="brand-icon">
+<!-- Minimal geometric satellite vector icon -->
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M4.93 4.93l4.24 4.24"></path>
+<path d="M14.83 14.83l4.24 4.24"></path>
+<path d="M14.83 9.17l4.24-4.24"></path>
+<path d="M4.93 19.07l4.24-4.24"></path>
+<circle cx="12" cy="12" r="9" stroke-dasharray="2 3"></circle>
+</svg>
+</div>
+<span class="brand-name">Sputnik</span>
+<span class="institute-badge font-mono">ABV-IIITM GWALIOR</span>
+</div>
+<!-- Center/Right: Segmented 2-Tab View Switcher Pill -->
+<nav aria-label="Application View" class="view-switcher">
+<button aria-current="page" class="view-btn active">Ask Sputnik</button>
+<button class="view-btn inactive">Campus Walk Guide</button>
+</nav>
+</div>
+</header>
+<!-- Centered Single-Column Layout (max-width 768px on #FAFAFA background) -->
+<main class="app-container">
+<!-- 2. Query Command Box -->
+<section aria-label="Query Command Section" class="query-section">
+<div class="command-bar">
+<div class="query-text-display">What is today's dinner menu in the mess?</div>
+<div class="command-bar-actions">
+<span class="model-badge font-mono">Model: LogReg (8ms)</span>
+<button aria-label="Submit Query" class="submit-button">
+<svg fill="none" height="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="15">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</div>
+</div>
+<!-- 4 Subtle Pill Chips Row -->
+<div aria-label="Sample Prompts" class="prompt-chips-row" role="region">
+<button class="prompt-chip">Where is the Central Library?</button>
+<button class="prompt-chip">What are the B.Tech admission criteria?</button>
+<button class="prompt-chip">Walk from Main Gate to Sports Complex</button>
+<button class="prompt-chip">Hostel mess rules and timings</button>
+</div>
+</section>
+<!-- 3. Grounded Answer Card -->
+<article aria-label="Grounded Answer" class="answer-card">
+<header class="answer-header">
+<div class="category-badge-facilities">
+          Campus Facilities &amp; Hostels
+        </div>
+<div class="telemetry-group font-mono"><span class="telemetry-pill" style="background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a;">Confidence: 38.2% · Low Certainty Fallback</span><span class="telemetry-pill">Domain Boost: +10% (1.10x)</span></div>
+</header>
+<div class="answer-content"><div style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 12px 14px; font-size: 13.5px; line-height: 20px; color: #92400e; display: flex; align-items: flex-start; gap: 8px;"><svg fill="none" height="16" stroke="#b45309" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;" viewbox="0 0 24 24" width="16"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg><span>Notice: Daily rotating meal menus and dynamic student schedules are managed by student mess committees and are not codified within static ABV-IIITM academic ordinances or static institutional portals.</span></div><div style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px;"><div class="font-mono" style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #888888;">CAMPUS HOTSPOT FALLBACK DIRECTORY</div><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;"><div style="background-color: #fafafa; border: 1px solid #ebebeb; border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 13.5px; font-weight: 600; color: #171717;">Central Mess Committee &amp; Dining Hall</span><span class="font-mono" style="font-size: 11px; background-color: #ffffff; border: 1px solid #ebebeb; padding: 1px 6px; border-radius: 4px; color: #4d4d4d;">Active</span></div><p style="font-size: 12.5px; color: #4d4d4d; line-height: 18px; margin: 0;">Catering Desk Intercom: <span class="font-mono" style="color: #171717; font-weight: 500;">ext #4120</span><br/>Daily whiteboard display at BH / GH dining porch entrance.<br/>WhatsApp broadcast: <span class="font-mono" style="color: #0070f3;">@iiitm_mess_council</span></p></div><div style="background-color: #fafafa; border: 1px solid #ebebeb; border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 13.5px; font-weight: 600; color: #171717;">Hostel Administration &amp; Chief Warden</span><span class="font-mono" style="font-size: 11px; background-color: #ffffff; border: 1px solid #ebebeb; padding: 1px 6px; border-radius: 4px; color: #4d4d4d;">09:30–17:30</span></div><p style="font-size: 12.5px; color: #4d4d4d; line-height: 18px; margin: 0;">Location: Administrative Complex Ground Floor<br/>Office Hours: Mon–Fri, 09:30–17:30 IST<br/>Email: <a class="font-mono" href="mailto:mess.council@iiitm.ac.in" style="color: #0070f3; text-decoration: none;">mess.council@iiitm.ac.in</a></p></div></div></div></div>
+</article>
+<!-- 4. Retrieved Official Excerpts & Verified Links Section -->
+<section aria-label="Retrieved Excerpts and Sources" class="excerpts-section">
+<div class="section-eyebrow font-mono">RETRIEVED PASSAGES &amp; VERIFIED IIITM.AC.IN SOURCES</div>
+<div class="excerpts-list"><div class="excerpt-card"><div class="excerpt-top-row"><div class="excerpt-left-meta"><span class="doc-id-badge font-mono">doc_088</span><a class="source-link font-mono" href="https://iiitm.ac.in/mess-regulations" rel="noopener noreferrer" target="_blank">iiitm.ac.in/mess-regulations</a></div><span class="sim-score-meta font-mono">sim: 0.284 → adj: 0.312</span></div><p class="excerpt-snippet">Hostel Mess Constitution: Meal timings (Breakfast 07:30–09:30, Lunch 12:30–14:15, Snacks 17:00–18:00, Dinner 19:45–21:45). Weekly menu rotation decided by Student Mess Representatives.</p></div><div class="excerpt-card"><div class="excerpt-top-row"><div class="excerpt-left-meta"><span class="doc-id-badge font-mono">doc_112</span><a class="source-link font-mono" href="https://iiitm.ac.in/hostel-wardens" rel="noopener noreferrer" target="_blank">iiitm.ac.in/hostel-wardens</a></div><span class="sim-score-meta font-mono">sim: 0.219 → adj: 0.241</span></div><p class="excerpt-snippet">Administrative directory: Hostel supervisors, mess rebate protocols (minimum 3 days prior intimation to Mess Secretary), and emergency warden contacts.</p></div></div>
+</section>
+</main>
+</body>
+</html>

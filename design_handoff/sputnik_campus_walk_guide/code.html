@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sputnik — ABV-IIITM Gwalior Campus Companion</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&amp;family=Geist:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: #171717;
+      font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .font-mono {
+      font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    /* 1. Header */
+    header.utility-header {
+      height: 56px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ebebeb;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .header-inner {
+      max-width: 768px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #171717;
+    }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      color: #171717;
+    }
+
+    .institute-badge {
+      font-size: 11px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Segmented 2-tab view switcher */
+    .view-switcher {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid #ebebeb;
+      gap: 2px;
+    }
+
+    .view-btn {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .view-btn.active {
+      background-color: #171717;
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    .view-btn.inactive {
+      background-color: transparent;
+      color: #666666;
+    }
+
+    .view-btn.inactive:hover {
+      color: #171717;
+    }
+
+    /* Layout Main */
+    main.app-container {
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 28px 16px 64px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* 2. Query Command Box */
+    .query-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .command-bar {
+      height: 48px;
+      background-color: #ffffff;
+      border: 1px solid #a1a1a1;
+      border-radius: 8px;
+      padding: 0 8px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      gap: 12px;
+    }
+
+    .query-text-display {
+      font-size: 15px;
+      color: #171717;
+      font-weight: 400;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: text;
+    }
+
+    .command-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .model-badge {
+      font-size: 11.5px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+    }
+
+    .submit-button {
+      width: 32px;
+      height: 32px;
+      background-color: #171717;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #000000;
+    }
+
+    /* Prompt Chips */
+    .prompt-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .prompt-chips-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt-chip {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: #4d4d4d;
+      white-space: nowrap;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .prompt-chip:hover {
+      border-color: #a1a1a1;
+      color: #171717;
+    }
+
+    /* 3. Grounded Answer Card */
+    .answer-card {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03), 0 2px 3px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .answer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-badge-facilities {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #047857;
+      background-color: #d1fae5;
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: -0.1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .category-badge-facilities::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #047857;
+      display: inline-block;
+    }
+
+    .telemetry-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .telemetry-pill {
+      font-size: 11.5px;
+      color: #4d4d4d;
+      background-color: #f5f5f5;
+      border: 1px solid #ebebeb;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .answer-content {
+      font-size: 15px;
+      line-height: 24px;
+      color: #171717;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .answer-content p {
+      margin: 0;
+    }
+
+    .citation-tag {
+      font-size: 11.5px;
+      color: #0070f3;
+      background-color: #d3e5ff;
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin: 0 2px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 16px;
+      vertical-align: baseline;
+    }
+
+    .citation-tag:hover {
+      background-color: #0070f3;
+      color: #ffffff;
+    }
+
+    /* 4. Retrieved Passages Section */
+    .excerpts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-eyebrow {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #888888;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .excerpts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .excerpt-card {
+      background-color: #fafafa;
+      border: 1px solid #ebebeb;
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s ease;
+    }
+
+    .excerpt-card:hover {
+      border-color: #a1a1a1;
+    }
+
+    .excerpt-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .excerpt-left-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .doc-id-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #171717;
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .source-link {
+      font-size: 12px;
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+      color: #0761d1;
+    }
+
+    .sim-score-meta {
+      font-size: 11.5px;
+      color: #666666;
+    }
+
+    .excerpt-snippet {
+      font-size: 13.5px;
+      line-height: 20px;
+      color: #4d4d4d;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+    }
+  </style>
+<meta content="web_standard" name="shell-type"/></head>
+<body>
+<!-- 1. Top Utility Header -->
+<header class="utility-header">
+<div class="header-inner">
+<!-- Left: Logo & Wordmark & Monospace Badge -->
+<div class="brand-group">
+<div aria-hidden="true" class="brand-icon">
+<!-- Minimal geometric satellite vector icon -->
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M4.93 4.93l4.24 4.24"></path>
+<path d="M14.83 14.83l4.24 4.24"></path>
+<path d="M14.83 9.17l4.24-4.24"></path>
+<path d="M4.93 19.07l4.24-4.24"></path>
+<circle cx="12" cy="12" r="9" stroke-dasharray="2 3"></circle>
+</svg>
+</div>
+<span class="brand-name">Sputnik</span>
+<span class="institute-badge font-mono">ABV-IIITM GWALIOR</span>
+</div>
+<!-- Center/Right: Segmented 2-Tab View Switcher Pill -->
+<nav aria-label="Application View" class="view-switcher">
+<button aria-current="page" class="view-btn active">Ask Sputnik</button>
+<button class="view-btn inactive">Campus Walk Guide</button>
+</nav>
+</div>
+</header>
+<!-- Centered Single-Column Layout (max-width 768px on #FAFAFA background) -->
+<main class="app-container"><div class="flex flex-col w-full">
+<!-- Interactive View Switcher Sync Header (Updates View State visually) -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Synchronize shell view switcher if present in parent DOM
+      const viewButtons = document.querySelectorAll(".view-btn");
+      if (viewButtons.length >= 2) {
+        viewButtons[0].classList.remove("active");
+        viewButtons[0].classList.add("inactive");
+        viewButtons[1].classList.remove("inactive");
+        viewButtons[1].classList.add("active");
+        viewButtons[1].setAttribute("aria-current", "page");
+      }
+    });
+  </script>
+<!-- Campus Walk Guide Workspace -->
+<div class="w-full max-w-[1120px] mx-auto py-2">
+<!-- Breadcrumb & Mode Meta -->
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<span class="font-caption-mono text-caption-mono text-mute uppercase tracking-wider">Navigation System</span>
+<span class="text-hairline-strong text-caption">/</span>
+<span class="font-caption-mono text-caption-mono text-ink font-medium">Campus Walk Guide (160-Acre Grid)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-cat-facilities-bg text-cat-facilities-text font-caption-mono text-caption-mono font-medium">
+          Dijkstra Engine: Online
+        </span>
+<span class="font-caption-mono text-caption-mono text-mute">v2.4.1</span>
+</div>
+</div>
+<!-- 2-Column Split Container -->
+<div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
+<!-- ================= LEFT COLUMN: ROUTE CONTROLS & STEPPER ================= -->
+<section aria-label="Route Selection and Directions" class="bg-canvas rounded-xl p-5 shadow-sm flex flex-col gap-4">
+<!-- Eyebrow Header -->
+<div class="flex items-center justify-between pb-3 bg-canvas-soft-2 px-3 py-2 rounded-lg">
+<span class="font-caption-mono text-caption-mono text-mute tracking-wide uppercase font-medium">
+            DIJKSTRA SHORTEST PATH SOLVER
+          </span>
+<span class="font-caption-mono text-caption-mono text-ink font-semibold bg-canvas px-1.5 py-0.5 rounded">
+            14 NODES
+          </span>
+</div>
+<!-- Form Controls -->
+<form class="flex flex-col gap-3" id="route-form" onsubmit="event.preventDefault(); window.recomputeRoute?.();">
+<!-- Origin Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-caption-mono text-caption-mono text-mute tracking-wider uppercase font-medium" for="origin-select">
+              ORIGIN
+            </label>
+<div class="relative">
+<select class="w-full h-10 px-3 pr-8 rounded-lg bg-canvas text-ink font-body-sm text-body-sm shadow-sm appearance-none focus:outline-none focus:bg-canvas-soft transition-all cursor-pointer" id="origin-select">
+<option selected="" value="main_gate">Institute Main Entrance Gate (main_gate)</option>
+<option value="admin_block">Administrative Block (admin_block)</option>
+<option value="academic_block">Academic Block - Block A &amp; B (academic_block)</option>
+<option value="central_library">Central Learning Resource Centre (central_library)</option>
+<option value="computer_center">Central Computer Center (computer_center)</option>
+<option value="health_center">Institute Health Care Center (health_center)</option>
+<option value="gh">Gangotri Girls Hostel - GH (gh)</option>
+<option value="bh1">Boys Hostel 1 - Aravali (bh1)</option>
+<option value="bh2">Boys Hostel 2 - Nilgiri (bh2)</option>
+<option value="bh3">Boys Hostel 3 - Shivalik (bh3)</option>
+<option value="central_mess">Central Student Dining Mess (central_mess)</option>
+<option value="cafeteria">Student Activity Centre Cafeteria (cafeteria)</option>
+<option value="mdp_center">Management Development Center (mdp_center)</option>
+<option value="sports_complex">Sports Complex &amp; Gymnasium (sports_complex)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-mute">
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Destination Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-caption-mono text-caption-mono text-mute tracking-wider uppercase font-medium" for="destination-select">
+              DESTINATION
+            </label>
+<div class="relative">
+<select class="w-full h-10 px-3 pr-8 rounded-lg bg-canvas text-ink font-body-sm text-body-sm shadow-sm appearance-none focus:outline-none focus:bg-canvas-soft transition-all cursor-pointer" id="destination-select">
+<option value="main_gate">Institute Main Entrance Gate (main_gate)</option>
+<option value="admin_block">Administrative Block (admin_block)</option>
+<option value="academic_block">Academic Block - Block A &amp; B (academic_block)</option>
+<option value="central_library">Central Learning Resource Centre (central_library)</option>
+<option value="computer_center">Central Computer Center (computer_center)</option>
+<option value="health_center">Institute Health Care Center (health_center)</option>
+<option value="gh">Gangotri Girls Hostel - GH (gh)</option>
+<option value="bh1">Boys Hostel 1 - Aravali (bh1)</option>
+<option value="bh2">Boys Hostel 2 - Nilgiri (bh2)</option>
+<option value="bh3">Boys Hostel 3 - Shivalik (bh3)</option>
+<option value="central_mess">Central Student Dining Mess (central_mess)</option>
+<option value="cafeteria">Student Activity Centre Cafeteria (cafeteria)</option>
+<option value="mdp_center">Management Development Center (mdp_center)</option>
+<option selected="" value="sports_complex">Sports Complex &amp; Gymnasium (sports_complex)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-mute">
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Compute Action Button -->
+<button class="w-full h-10 mt-1 bg-ink hover:bg-black text-on-primary font-body-sm-strong text-body-sm-strong rounded-lg flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.99] cursor-pointer" id="compute-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">route</span>
+<span>Compute Walking Route</span>
+</button>
+</form>
+<!-- Route Summary Banner -->
+<div class="bg-canvas-soft rounded-lg p-3.5 flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-code text-code font-semibold text-ink">700 meters · ~8.8 mins walking</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-cat-academics-bg text-cat-academics-text font-caption-mono text-caption-mono font-medium">Optimal</span>
+</div>
+<div class="font-caption-mono text-caption-mono text-secondary-container font-medium tracking-tight break-all">
+            main_gate → health_center → gh → sports_complex
+          </div>
+<div class="flex items-center gap-4 mt-1 pt-2 bg-canvas-soft-2 px-2.5 py-1.5 rounded text-caption font-body-sm text-mute">
+<span>Paved surface: 100%</span>
+<span>Elevation Δ: +2.4m</span>
+<span>Shade factor: 65%</span>
+</div>
+</div>
+<!-- Vertical Turn-by-Turn Stepper List -->
+<div class="flex flex-col gap-3 mt-1">
+<div class="flex items-center justify-between">
+<span class="font-caption-mono text-caption-mono text-mute uppercase tracking-wider font-semibold">
+              TURN-BY-TURN DIRECTIONS
+            </span>
+<span class="font-caption-mono text-caption-mono text-mute">3 legs</span>
+</div>
+<div class="relative flex flex-col pl-1">
+<!-- Step 1 -->
+<div class="relative flex items-start gap-3.5 pb-6">
+<!-- Connecting vertical line -->
+<div class="absolute left-2.5 top-6 bottom-0 w-[2px] bg-canvas-soft-2"></div>
+<!-- Indicator -->
+<div class="relative z-10 w-5 h-5 rounded-full bg-ink text-white font-caption-mono text-[11px] font-semibold flex items-center justify-center shrink-0 shadow-sm">
+                1
+              </div>
+<!-- Content -->
+<div class="flex flex-col gap-1 flex-1 min-w-0 pt-0.5">
+<p class="font-body-sm text-body-sm text-ink leading-tight">
+                  Walk 180m from <span class="font-medium text-ink">Institute Main Entrance Gate</span> along Primary Perimeter Road towards Health Care Wing.
+                </p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-caption-mono text-[11px] text-mute bg-canvas-soft-2 px-1.5 py-0.5 rounded">180m</span>
+<span class="font-caption-mono text-[11px] text-mute bg-canvas-soft-2 px-1.5 py-0.5 rounded">~2.2 mins</span>
+<span class="font-caption-mono text-[11px] text-secondary">Straight path</span>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-start gap-3.5 pb-6">
+<!-- Connecting vertical line -->
+<div class="absolute left-2.5 top-6 bottom-0 w-[2px] bg-canvas-soft-2"></div>
+<!-- Indicator -->
+<div class="relative z-10 w-5 h-5 rounded-full bg-ink text-white font-caption-mono text-[11px] font-semibold flex items-center justify-center shrink-0 shadow-sm">
+                2
+              </div>
+<!-- Content -->
+<div class="flex flex-col gap-1 flex-1 min-w-0 pt-0.5">
+<p class="font-body-sm text-body-sm text-ink leading-tight">
+                  Turn slightly north and continue 240m from <span class="font-medium text-ink">Institute Health Care Center</span> past residential avenue to <span class="font-medium text-ink">Gangotri Girls Hostel (GH)</span>.
+                </p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-caption-mono text-[11px] text-mute bg-canvas-soft-2 px-1.5 py-0.5 rounded">240m</span>
+<span class="font-caption-mono text-[11px] text-mute bg-canvas-soft-2 px-1.5 py-0.5 rounded">~3.0 mins</span>
+<span class="font-caption-mono text-[11px] text-mute">Garden walkway</span>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex items-start gap-3.5">
+<!-- Indicator (Active Finish) -->
+<div class="relative z-10 w-5 h-5 rounded-full bg-secondary-container text-white font-caption-mono text-[11px] font-semibold flex items-center justify-center shrink-0 shadow-sm">
+                3
+              </div>
+<!-- Content -->
+<div class="flex flex-col gap-1 flex-1 min-w-0 pt-0.5">
+<p class="font-body-sm text-body-sm text-ink leading-tight">
+                  Follow the athletic promenade 280m northeast from <span class="font-medium text-ink">Gangotri Girls Hostel (GH)</span> straight into <span class="font-medium text-ink">Sports Complex, Gymnasium &amp; Athletic Grounds</span>.
+                </p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-caption-mono text-[11px] text-secondary font-medium bg-link-bg-soft px-1.5 py-0.5 rounded">280m</span>
+<span class="font-caption-mono text-[11px] text-secondary font-medium bg-link-bg-soft px-1.5 py-0.5 rounded">~3.5 mins</span>
+<span class="font-caption-mono text-[11px] text-cat-facilities-text font-medium">Arrival at Arena</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Campus Navigation Quick Tips -->
+<div class="mt-2 pt-3 bg-canvas-soft p-3 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-mute shrink-0">pedal_bike</span>
+<span class="font-caption text-caption text-mute">
+            Cycle racks are available at Main Gate, Academic Complex, and Sports Pavilion. Walking is recommended on interior paved corridors.
+          </span>
+</div>
+</section>
+<!-- ================= RIGHT COLUMN: TOPOLOGICAL GRAPH CANVAS CARD ================= -->
+<section aria-label="Campus Topological Network Map" class="bg-canvas rounded-xl p-5 shadow-sm min-h-[620px] flex flex-col justify-between">
+<!-- Header Row -->
+<div class="flex flex-wrap items-center justify-between gap-3 pb-3 bg-canvas-soft-2 px-3 py-2 rounded-lg">
+<div class="flex items-center gap-2">
+<span class="font-caption-mono text-caption-mono text-ink font-semibold uppercase tracking-wide">
+              160-ACRE CAMPUS TOPOLOGY
+            </span>
+<span class="font-caption-mono text-caption-mono text-mute">
+              (14 VERTICES · 20 WALKWAY EDGES)
+            </span>
+</div>
+<!-- Legend Pills -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 bg-canvas px-2 py-0.5 rounded shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container inline-block"></span>
+<span class="font-caption-mono text-caption-mono text-ink font-medium">Active Route</span>
+</div>
+<div class="flex items-center gap-1.5 bg-canvas px-2 py-0.5 rounded shadow-sm">
+<span class="w-3.5 h-[2px] bg-mute inline-block"></span>
+<span class="font-caption-mono text-caption-mono text-mute">Walkway Edge</span>
+</div>
+</div>
+</div>
+<!-- Interactive Map Diagram Canvas (SVG Geometric Topological Diagram) -->
+<div class="relative w-full h-[540px] my-3 rounded-lg overflow-hidden bg-canvas-soft flex items-center justify-center select-none shadow-sm">
+<!-- Architectural Dot Grid Overlay -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="24" id="campus-grid-pattern" patternunits="userSpaceOnUse" width="24">
+<circle cx="2" cy="2" fill="#e5e5e5" r="1"></circle>
+</pattern>
+</defs>
+<rect fill="url(#campus-grid-pattern)" height="100%" width="100%"></rect>
+</svg>
+<!-- SVG Graph Network -->
+<svg class="relative z-10 w-full h-full max-w-[680px] max-h-[520px]" fill="none" id="campus-topology-svg" viewbox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+<!-- DEFINITIONS: Markers & Filters -->
+<defs>
+<!-- Arrow Marker for active route -->
+<marker id="route-arrow" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="6" refy="5" viewbox="0 0 10 10">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#0070f3"></path>
+</marker>
+<!-- Subtle glow for active nodes -->
+<filter height="140%" id="node-glow" width="140%" x="-20%" y="-20%">
+<fedropshadow dx="0" dy="2" flood-color="#0070f3" flood-opacity="0.25" stddeviation="2"></fedropshadow>
+</filter>
+</defs>
+<!-- ================= CAMPUS WALKWAY EDGES (INACTIVE) ================= -->
+<g id="inactive-edges" stroke="#d4d4d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+<!-- Gate & Admin links -->
+<line x1="80" x2="190" y1="420" y2="350"></line> <!-- Main Gate -> Admin Block (160m) -->
+<line x1="190" x2="310" y1="350" y2="330"></line> <!-- Admin -> Academic Block (140m) -->
+<line x1="190" x2="160" y1="350" y2="230"></line> <!-- Admin -> Library (150m) -->
+<!-- Academic Corridor -->
+<line x1="310" x2="300" y1="330" y2="210"></line> <!-- Academic -> Computer Center (130m) -->
+<line x1="160" x2="300" y1="230" y2="210"></line> <!-- Library -> Computer Center (140m) -->
+<line x1="310" x2="430" y1="330" y2="340"></line> <!-- Academic -> Cafeteria (120m) -->
+<!-- Health center auxiliary links -->
+<line x1="210" x2="190" y1="450" y2="350"></line> <!-- Health Center -> Admin Block (130m) -->
+<line x1="210" x2="310" y1="450" y2="330"></line> <!-- Health Center -> Academic Block (200m) -->
+<!-- Hostels & Mess links -->
+<line x1="400" x2="430" y1="430" y2="340"></line> <!-- GH -> Cafeteria (110m) -->
+<line x1="400" x2="520" y1="430" y2="420"></line> <!-- GH -> Central Mess (130m) -->
+<line x1="520" x2="590" y1="420" y2="350"></line> <!-- Central Mess -> BH-1 (100m) -->
+<line x1="590" x2="610" y1="350" y2="250"></line> <!-- BH-1 -> BH-2 (110m) -->
+<line x1="610" x2="580" y1="250" y2="150"></line> <!-- BH-2 -> BH-3 (120m) -->
+<line x1="580" x2="580" y1="150" y2="60"></line> <!-- BH-3 -> Sports Complex (130m) -->
+<line x1="430" x2="520" y1="340" y2="420"></line> <!-- Cafeteria -> Mess (115m) -->
+<line x1="300" x2="420" y1="210" y2="150"></line> <!-- Computer Center -> MDP Center (150m) -->
+<line x1="420" x2="580" y1="150" y2="60"></line> <!-- MDP Center -> Sports Complex (180m) -->
+</g>
+<!-- ================= ACTIVE ROUTE EDGES (DIJKSTRA RESULT) ================= -->
+<g id="active-route" stroke="#0070f3" stroke-linecap="round" stroke-linejoin="round">
+<!-- Edge 1: Main Gate -> Health Center (180m) -->
+<line stroke-width="4" x1="80" x2="210" y1="420" y2="450"></line>
+<!-- Edge 2: Health Center -> Girls Hostel (240m) -->
+<line stroke-width="4" x1="210" x2="400" y1="450" y2="430"></line>
+<!-- Edge 3: Girls Hostel -> Sports Complex (280m) -->
+<line stroke-dasharray="6 3" stroke-width="4" x1="400" x2="580" y1="430" y2="60"></line>
+</g>
+<!-- Distance callout tags along active edges -->
+<g class="font-caption-mono text-[10.5px] font-semibold" fill="#0070f3">
+<!-- Leg 1 label -->
+<rect fill="#ffffff" height="16" rx="3" stroke="#d3e5ff" stroke-width="1" width="38" x="128" y="425"></rect>
+<text fill="#0070f3" text-anchor="middle" x="147" y="437">180m</text>
+<!-- Leg 2 label -->
+<rect fill="#ffffff" height="16" rx="3" stroke="#d3e5ff" stroke-width="1" width="38" x="290" y="430"></rect>
+<text fill="#0070f3" text-anchor="middle" x="309" y="442">240m</text>
+<!-- Leg 3 label -->
+<rect fill="#ffffff" height="16" rx="3" stroke="#d3e5ff" stroke-width="1" width="38" x="475" y="240"></rect>
+<text fill="#0070f3" text-anchor="middle" x="494" y="252">280m</text>
+</g>
+<!-- ================= VERTICES / NODES ================= -->
+<!-- 1. MAIN GATE (Active Origin) -->
+<g class="cursor-pointer group" transform="translate(80, 420)">
+<circle class="animate-ping" fill="#0070f3" opacity="0.15" r="14"></circle>
+<circle fill="#171717" r="9" stroke="#ffffff" stroke-width="2"></circle>
+<circle fill="#ffffff" r="4"></circle>
+<text class="font-caption-mono text-[11px] font-semibold" fill="#171717" x="-12" y="22">Main Gate (Origin)</text>
+<text class="font-caption-mono text-[9.5px]" fill="#888888" x="-12" y="33">NODE_01</text>
+</g>
+<!-- 2. ADMIN BLOCK -->
+<g class="cursor-pointer" transform="translate(190, 350)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="3">Admin Block</text>
+</g>
+<!-- 3. ACADEMIC BLOCK -->
+<g class="cursor-pointer" transform="translate(310, 330)">
+<circle fill="#ffffff" r="8" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="4">Academic Block (A/B)</text>
+</g>
+<!-- 4. LIBRARY -->
+<g class="cursor-pointer" transform="translate(160, 230)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" text-anchor="end" x="-12" y="-12">Central Library</text>
+</g>
+<!-- 5. COMPUTER CENTER -->
+<g class="cursor-pointer" transform="translate(300, 210)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="-2">Computer Center</text>
+</g>
+<!-- 6. HEALTH CENTER (Active Route Node) -->
+<g class="cursor-pointer" filter="url(#node-glow)" transform="translate(210, 450)">
+<circle fill="#ffffff" r="10" stroke="#0070f3" stroke-width="2.5"></circle>
+<circle fill="#0070f3" r="5"></circle>
+<text class="font-caption-mono text-[11px] font-bold" fill="#0070f3" x="-10" y="22">Health Center</text>
+<text class="font-caption-mono text-[9px]" fill="#888888" x="-10" y="32">NODE_06 [LEG 1]</text>
+</g>
+<!-- 7. GANGOTRI GIRLS HOSTEL (GH) (Active Route Node) -->
+<g class="cursor-pointer" filter="url(#node-glow)" transform="translate(400, 430)">
+<circle fill="#ffffff" r="10" stroke="#0070f3" stroke-width="2.5"></circle>
+<circle fill="#0070f3" r="5"></circle>
+<text class="font-caption-mono text-[11px] font-bold" fill="#0070f3" x="-14" y="23">Girls Hostel (GH)</text>
+<text class="font-caption-mono text-[9px]" fill="#888888" x="-14" y="33">NODE_07 [LEG 2]</text>
+</g>
+<!-- 8. BOYS HOSTEL 1 (BH-1) -->
+<g class="cursor-pointer" transform="translate(590, 350)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="3">BH-1 (Aravali)</text>
+</g>
+<!-- 9. BOYS HOSTEL 2 (BH-2) -->
+<g class="cursor-pointer" transform="translate(610, 250)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="3">BH-2 (Nilgiri)</text>
+</g>
+<!-- 10. BOYS HOSTEL 3 (BH-3) -->
+<g class="cursor-pointer" transform="translate(580, 150)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="3">BH-3 (Shivalik)</text>
+</g>
+<!-- 11. CENTRAL MESS -->
+<g class="cursor-pointer" transform="translate(520, 420)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="16">Central Mess</text>
+</g>
+<!-- 12. CAFETERIA -->
+<g class="cursor-pointer" transform="translate(430, 340)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="4">SAC Cafeteria</text>
+</g>
+<!-- 13. MDP CENTER -->
+<g class="cursor-pointer" transform="translate(420, 150)">
+<circle fill="#ffffff" r="7" stroke="#a1a1a1" stroke-width="1.8"></circle>
+<text class="font-caption-mono text-[11px] font-medium" fill="#444748" x="12" y="3">MDP Center</text>
+</g>
+<!-- 14. SPORTS COMPLEX (Active Destination) -->
+<g class="cursor-pointer" filter="url(#node-glow)" transform="translate(580, 60)">
+<circle fill="#0070f3" opacity="0.15" r="14"></circle>
+<circle fill="#0070f3" r="9" stroke="#ffffff" stroke-width="2"></circle>
+<circle fill="#ffffff" r="4"></circle>
+<!-- Pin Flag Graphic -->
+<path d="M 580 50 L 580 34 L 594 40 L 580 46" fill="#0070f3" stroke="#0070f3" stroke-width="1" transform="translate(-580, -60)"></path>
+<line stroke="#0070f3" stroke-width="2" x1="0" x2="0" y1="-10" y2="-26"></line>
+<text class="font-caption-mono text-[12px] font-bold" fill="#0070f3" text-anchor="end" x="-12" y="-14">Sports Complex &amp; Gym (Dest)</text>
+<text class="font-caption-mono text-[9.5px]" fill="#888888" text-anchor="end" x="-12" y="-2">NODE_14 [TERMINUS]</text>
+</g>
+</svg>
+<!-- North Compass Indicator (Bottom Right Corner) -->
+<div class="absolute bottom-3 right-3 bg-canvas/90 backdrop-blur-sm px-2.5 py-1.5 rounded border border-hairline flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-ink">north</span>
+<span class="font-caption-mono text-[11px] font-semibold text-ink tracking-wider">NORTH 000°</span>
+</div>
+<!-- Topology Mode Pill (Top Left Inside Canvas) -->
+<div class="absolute top-3 left-3 bg-canvas/95 backdrop-blur-sm px-2.5 py-1 rounded border border-hairline flex items-center gap-2 text-caption-mono font-caption-mono text-mute shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-cat-facilities-text animate-pulse"></span>
+<span>Scale: 1:2500 · Flat Projection</span>
+</div>
+</div>
+<!-- Footer Telemetry & Quick Action Bar -->
+<div class="pt-3 border-t border-hairline flex flex-wrap items-center justify-between gap-3 text-caption font-body-sm text-mute">
+<!-- Dijkstra Telemetry Chip -->
+<div class="flex items-center gap-2">
+<span class="font-caption-mono text-caption-mono text-ink font-medium bg-canvas-soft-2 px-2 py-0.5 rounded border border-hairline">
+              Dijkstra execution time: 1.4ms
+            </span>
+<span class="font-caption-mono text-caption-mono text-mute">
+              Graph density: 0.22 (Sparse planar)
+            </span>
+</div>
+<!-- Map Utility Controls -->
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 rounded bg-canvas-soft text-ink hover:bg-canvas-soft-2 font-caption-mono text-caption-mono transition-colors border border-hairline flex items-center gap-1" onclick="window.zoomReset?.()" type="button">
+<span class="material-symbols-outlined text-[14px]">center_focus_strong</span>
+<span>Reset View</span>
+</button>
+<button class="px-2.5 py-1 rounded bg-canvas-soft text-ink hover:bg-canvas-soft-2 font-caption-mono text-caption-mono transition-colors border border-hairline flex items-center gap-1" onclick="window.copyPath?.()" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span>Copy Steps</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Interactive JavaScript Micro-interactions -->
+<script>
+    window.recomputeRoute = function() {
+      const btn = document.getElementById("compute-btn");
+      if (!btn) return;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Recomputing Shortest Path...</span>`;
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        // Visual cue for node refresh
+        const routeEdges = document.getElementById("active-route");
+        if (routeEdges) {
+          routeEdges.style.opacity = "0.2";
+          setTimeout(() => {
+            routeEdges.style.opacity = "1";
+            routeEdges.style.transition = "opacity 0.25s ease-in-out";
+          }, 60);
+        }
+      }, 350);
+    };
+
+    window.copyPath = function() {
+      const text = "Sputnik ABV-IIITM Walk Route: main_gate → health_center (180m) → gh (240m) → sports_complex (280m). Total: 700m (~8.8 mins).";
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Route directions copied to clipboard.");
+        });
+      }
+    };
+
+    window.zoomReset = function() {
+      const svg = document.getElementById("campus-topology-svg");
+      if (svg) {
+        svg.style.transform = "scale(1)";
+        svg.style.transition = "transform 0.2s ease";
+      }
+    };
+  </script>
+</div></main>
+</body></html>

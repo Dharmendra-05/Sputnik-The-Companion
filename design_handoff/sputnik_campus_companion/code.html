@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sputnik — ABV-IIITM Gwalior Campus Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: #171717;
+      font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .font-mono {
+      font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    /* 1. Header */
+    header.utility-header {
+      height: 56px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ebebeb;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .header-inner {
+      max-width: 768px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #171717;
+    }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      color: #171717;
+    }
+
+    .institute-badge {
+      font-size: 11px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Segmented 2-tab view switcher */
+    .view-switcher {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid #ebebeb;
+      gap: 2px;
+    }
+
+    .view-btn {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .view-btn.active {
+      background-color: #171717;
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    .view-btn.inactive {
+      background-color: transparent;
+      color: #666666;
+    }
+
+    .view-btn.inactive:hover {
+      color: #171717;
+    }
+
+    /* Layout Main */
+    main.app-container {
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 28px 16px 64px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* 2. Query Command Box */
+    .query-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .command-bar {
+      height: 48px;
+      background-color: #ffffff;
+      border: 1px solid #a1a1a1;
+      border-radius: 8px;
+      padding: 0 8px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      gap: 12px;
+    }
+
+    .query-text-display {
+      font-size: 15px;
+      color: #171717;
+      font-weight: 400;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: text;
+    }
+
+    .command-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .model-badge {
+      font-size: 11.5px;
+      font-weight: 500;
+      background-color: #f5f5f5;
+      color: #4d4d4d;
+      border: 1px solid #ebebeb;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+    }
+
+    .submit-button {
+      width: 32px;
+      height: 32px;
+      background-color: #171717;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #000000;
+    }
+
+    /* Prompt Chips */
+    .prompt-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .prompt-chips-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt-chip {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: #4d4d4d;
+      white-space: nowrap;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .prompt-chip:hover {
+      border-color: #a1a1a1;
+      color: #171717;
+    }
+
+    /* 3. Grounded Answer Card */
+    .answer-card {
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03), 0 2px 3px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .answer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-badge-facilities {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #047857;
+      background-color: #d1fae5;
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: -0.1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .category-badge-facilities::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #047857;
+      display: inline-block;
+    }
+
+    .telemetry-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .telemetry-pill {
+      font-size: 11.5px;
+      color: #4d4d4d;
+      background-color: #f5f5f5;
+      border: 1px solid #ebebeb;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .answer-content {
+      font-size: 15px;
+      line-height: 24px;
+      color: #171717;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .answer-content p {
+      margin: 0;
+    }
+
+    .citation-tag {
+      font-size: 11.5px;
+      color: #0070f3;
+      background-color: #d3e5ff;
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin: 0 2px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 16px;
+      vertical-align: baseline;
+    }
+
+    .citation-tag:hover {
+      background-color: #0070f3;
+      color: #ffffff;
+    }
+
+    /* 4. Retrieved Passages Section */
+    .excerpts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-eyebrow {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #888888;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .excerpts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .excerpt-card {
+      background-color: #fafafa;
+      border: 1px solid #ebebeb;
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s ease;
+    }
+
+    .excerpt-card:hover {
+      border-color: #a1a1a1;
+    }
+
+    .excerpt-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .excerpt-left-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .doc-id-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #171717;
+      background-color: #ffffff;
+      border: 1px solid #ebebeb;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .source-link {
+      font-size: 12px;
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+      color: #0761d1;
+    }
+
+    .sim-score-meta {
+      font-size: 11.5px;
+      color: #666666;
+    }
+
+    .excerpt-snippet {
+      font-size: 13.5px;
+      line-height: 20px;
+      color: #4d4d4d;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Top Utility Header -->
+  <header class="utility-header">
+    <div class="header-inner">
+      <!-- Left: Logo & Wordmark & Monospace Badge -->
+      <div class="brand-group">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Minimal geometric satellite vector icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M4.93 4.93l4.24 4.24"></path>
+            <path d="M14.83 14.83l4.24 4.24"></path>
+            <path d="M14.83 9.17l4.24-4.24"></path>
+            <path d="M4.93 19.07l4.24-4.24"></path>
+            <circle cx="12" cy="12" r="9" stroke-dasharray="2 3"></circle>
+          </svg>
+        </div>
+        <span class="brand-name">Sputnik</span>
+        <span class="institute-badge font-mono">ABV-IIITM GWALIOR</span>
+      </div>
+
+      <!-- Center/Right: Segmented 2-Tab View Switcher Pill -->
+      <nav class="view-switcher" aria-label="Application View">
+        <button class="view-btn active" aria-current="page">Ask Sputnik</button>
+        <button class="view-btn inactive">Campus Walk Guide</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Centered Single-Column Layout (max-width 768px on #FAFAFA background) -->
+  <main class="app-container">
+
+    <!-- 2. Query Command Box -->
+    <section class="query-section" aria-label="Query Command Section">
+      <div class="command-bar">
+        <div class="query-text-display">What are the rules and facilities for girls hostel?</div>
+        <div class="command-bar-actions">
+          <span class="model-badge font-mono">Model: LogReg (8ms)</span>
+          <button class="submit-button" aria-label="Submit Query">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Subtle Pill Chips Row -->
+      <div class="prompt-chips-row" role="region" aria-label="Sample Prompts">
+        <button class="prompt-chip">Where is the Central Library?</button>
+        <button class="prompt-chip">What are the B.Tech admission criteria?</button>
+        <button class="prompt-chip">Walk from Main Gate to Sports Complex</button>
+        <button class="prompt-chip">Hostel mess rules and timings</button>
+      </div>
+    </section>
+
+    <!-- 3. Grounded Answer Card -->
+    <article class="answer-card" aria-label="Grounded Answer">
+      <header class="answer-header">
+        <div class="category-badge-facilities">
+          Campus Facilities &amp; Hostels
+        </div>
+        <div class="telemetry-group font-mono">
+          <span class="telemetry-pill">Confidence: 99.4%</span>
+          <span class="telemetry-pill">Domain Boost: +25% (1.25x)</span>
+        </div>
+      </header>
+
+      <div class="answer-content">
+        <p>
+          Gangotri Girls Hostel (GH) at ABV-IIITM Gwalior provides residential accommodation equipped with 24/7 security, high-speed campus LAN/Wi-Fi, and resident warden supervision <span class="citation-tag font-mono">[doc_142]</span>. Rooms are allocated on twin-sharing for junior batches and single occupancy for senior scholars. Entry timings stipulate reporting to the hostel turnstiles by 21:30 hrs unless formal academic or lab extension permissions have been authorized by the Council of Wardens <span class="citation-tag font-mono">[doc_143]</span>.
+        </p>
+        <p>
+          Dining facilities include an attached mess operational for breakfast (07:30–09:30), lunch (12:30–14:15), evening snacks (17:00–18:00), and dinner (19:45–21:45). Common room facilities offer indoor badminton courts, reading lounges, dedicated laundry zones with automated washing units, and immediate medical on-call access to the Institute Health Centre.
+        </p>
+      </div>
+    </article>
+
+    <!-- 4. Retrieved Official Excerpts & Verified Links Section -->
+    <section class="excerpts-section" aria-label="Retrieved Excerpts and Sources">
+      <div class="section-eyebrow font-mono">RETRIEVED PASSAGES &amp; VERIFIED IIITM.AC.IN SOURCES</div>
+      <div class="excerpts-list">
+        <!-- Excerpt Card 1 -->
+        <div class="excerpt-card">
+          <div class="excerpt-top-row">
+            <div class="excerpt-left-meta">
+              <span class="doc-id-badge font-mono">doc_142</span>
+              <a href="https://iiitm.ac.in/campus" target="_blank" rel="noopener noreferrer" class="source-link font-mono">iiitm.ac.in/campus</a>
+            </div>
+            <span class="sim-score-meta font-mono">sim: 0.482 → adj: 0.603</span>
+          </div>
+          <p class="excerpt-snippet">
+            Gangotri Girls Hostel (GH) administrative manual: curfew hours, gate-pass protocols, biometric turnstile logging, visitor registry guidelines, and warden contact directory for resident students.
+          </p>
+        </div>
+
+        <!-- Excerpt Card 2 -->
+        <div class="excerpt-card">
+          <div class="excerpt-top-row">
+            <div class="excerpt-left-meta">
+              <span class="doc-id-badge font-mono">doc_143</span>
+              <a href="https://iiitm.ac.in/campus" target="_blank" rel="noopener noreferrer" class="source-link font-mono">iiitm.ac.in/campus</a>
+            </div>
+            <span class="sim-score-meta font-mono">sim: 0.429 → adj: 0.536</span>
+          </div>
+          <p class="excerpt-snippet">
+            Hostel Mess Committee regulations: dietary schedules, monthly rebate rules, hygiene standards, dining hall decorum, and common room recreational equipment inventory.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
