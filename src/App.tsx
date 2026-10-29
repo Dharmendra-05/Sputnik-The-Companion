@@ -1,11 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header, ActiveTab } from './components/Header';
 import { ChatView } from './components/ChatView';
 import { WalkGuideView } from './components/WalkGuideView';
+import { checkBackendHealth } from './services/sputnikApi';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('chat');
   const [targetLandmarkId, setTargetLandmarkId] = useState<string | null>(null);
+  const [isBackendConnected, setIsBackendConnected] = useState<boolean>(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const probe = async () => {
+      const isHealthy = await checkBackendHealth();
+      if (isMounted) {
+        setIsBackendConnected(isHealthy);
+      }
+    };
+    probe();
+    const interval = setInterval(probe, 15000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleNavigateToLandmark = (landmarkId: string) => {
     setTargetLandmarkId(landmarkId);
@@ -17,6 +35,7 @@ export default function App() {
       {/* 56px Top Utility Header */}
       <Header
         activeTab={activeTab}
+        isBackendConnected={isBackendConnected}
         onTabChange={(tab) => {
           setActiveTab(tab);
           if (tab === 'chat') {

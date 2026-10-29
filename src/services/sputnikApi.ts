@@ -18,6 +18,26 @@ import { CAMPUS_LANDMARKS, computeShortestPath } from '../data/campusGraphData';
 const BACKEND_BASE_URL = import.meta.env.VITE_SPUTNIK_API_URL || '';
 
 /**
+ * Probes the health endpoint of the external FastAPI microservice
+ */
+export async function checkBackendHealth(): Promise<boolean> {
+  if (!BACKEND_BASE_URL) return false;
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/health`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return Boolean(data.status === 'ok');
+    }
+  } catch {
+    // Backend offline or unreachable
+  }
+  return false;
+}
+
+/**
  * Normalizes query string for TF-IDF token matching
  */
 function tokenize(text: string): string[] {
