@@ -101,15 +101,24 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Engine status indicator */}
         <div
           onClick={onOpenSystemInit}
-          className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-[#888888] px-2 py-0.5 bg-[#FAFAFA] hover:bg-[#F5F5F5] rounded border border-[#EBEBEB] cursor-pointer transition-colors"
-          title="Zero-GPU Classical ML Engine · Click to view initialization"
+          className="flex items-center gap-1.5 text-[11px] font-mono text-[#888888] px-2 py-0.5 bg-[#FAFAFA] hover:bg-[#F5F5F5] rounded border border-[#EBEBEB] cursor-pointer transition-colors"
+          title={
+            isBackendConnected
+              ? 'FastAPI Microservice Online · Click to view backend telemetry & endpoints'
+              : 'Deterministic Local ML Engine · Click to connect to FastAPI microservice'
+          }
         >
           <span
             className={`w-1.5 h-1.5 rounded-full ${
-              isBackendConnected ? 'bg-emerald-500' : 'bg-[#171717]'
+              isBackendConnected ? 'bg-emerald-500 animate-pulse shadow-xs shadow-emerald-500/50' : 'bg-[#171717]'
             }`}
           />
-          <span>{isBackendConnected ? 'FastAPI Connected' : 'Local ML · 0 GPU'}</span>
+          <span className="hidden sm:inline">
+            {isBackendConnected ? 'FastAPI Connected' : 'Local ML · 0 GPU'}
+          </span>
+          <span className="sm:hidden">
+            {isBackendConnected ? 'Online' : 'Local'}
+          </span>
         </div>
       </div>
     </header>

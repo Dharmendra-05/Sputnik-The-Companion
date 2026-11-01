@@ -190,26 +190,49 @@ Sputnik-The-Companion/
 
 ---
 
-## 🔗 Connecting the Python FastAPI Microservice
+## 🔗 Connecting the Python FastAPI Microservice & Vercel Deployment
 
-By default, Sputnik operates 100% offline in the browser. To connect with the full Python backend pipeline (`Dharmendra-05/Sputnik`):
+Sputnik is architected with dual-engine redundancy: it operates autonomously 100% offline in the browser via an embedded statistical ML mirror, while seamlessly communicating with the full Python backend pipeline (`Dharmendra-05/Sputnik`) whenever available.
 
-1. Start your Sputnik FastAPI backend on port 8000:
+### Local Development Setup
+1. Start the Sputnik FastAPI backend microservice on port 8000:
    ```bash
-   uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+   cd ../Sputnik
+   ./start_api.sh
+   # Or: uvicorn api:app --host 0.0.0.0 --port 8000
    ```
 
-2. Create a `.env` file in this repository:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. Configure `VITE_SPUTNIK_API_URL`:
+2. Configure `.env` in this companion repository:
    ```ini
    VITE_SPUTNIK_API_URL="http://localhost:8000"
    ```
 
-4. Restart the Vite server. Sputnik will automatically detect the backend and route live chat and navigation queries through FastAPI.
+3. Launch the Vite development server:
+   ```bash
+   npm run dev
+   ```
+   The header status indicator will glow emerald green with **FastAPI Connected**.
+
+---
+
+## 🚀 Deploying to Vercel
+
+### Step 1: Deploy the Python Backend
+Deploy the `Sputnik` repository (`Dharmendra-05/Sputnik`) to a cloud host:
+* **Render.com** (Free Tier): Create a new Web Service from `Sputnik`. Render auto-detects `render.yaml` and deploys using `uvicorn api:app --host 0.0.0.0 --port $PORT`.
+* **Railway / Fly.io / Docker**: Use the preconfigured `Procfile` or `Dockerfile`.
+* Note the public HTTPS URL (e.g. `https://sputnik-backend-api.onrender.com`).
+
+### Step 2: Deploy the Companion Frontend to Vercel
+1. Import `Dharmendra-05/Sputnik-The-Companion` into [Vercel](https://vercel.com).
+2. Framework Preset: **Vite**.
+3. Under **Environment Variables**, add:
+   * **Key**: `VITE_SPUTNIK_API_URL`
+   * **Value**: `https://your-sputnik-api.onrender.com` (your deployed backend URL)
+4. Click **Deploy**.
+
+### Step 3: Runtime In-App Connection Control
+At any time, you can click the **Engine Status** pill (`Local ML · 0 GPU` or `FastAPI Connected`) in the top navigation bar to open the **System Telemetry Modal**. You can inspect round-trip ping latency or paste a new Backend URL to connect on the fly without redeploying.
 
 ---
 

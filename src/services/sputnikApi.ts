@@ -5,6 +5,8 @@ import {
   MLIntentCategoryName,
   RetrievedExcerpt,
   LandmarkNode,
+  HealthResponse,
+  BackendStatus,
 } from '../types/sputnik';
 import {
   CATEGORY_MAPPING,
@@ -15,7 +17,81 @@ import {
 } from '../data/groundedCorpusMirror';
 import { CAMPUS_LANDMARKS, computeShortestPath } from '../data/campusGraphData';
 
-const BACKEND_BASE_URL = import.meta.env.VITE_SPUTNIK_API_URL || '';
+/**
+ * Returns the effective base URL for the Sputnik backend API.
+ * Priority:
+ * 1. User runtime override in localStorage ('sputnik_backend_url')
+ * 2. Build-time environment variable VITE_SPUTNIK_API_URL
+ * 3. Default fallback (empty string for relative /api paths)
+ */
+export function getBackendBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    const custom = window.localStorage.getItem('sputnik_backend_url');
+    if (custom !== null && custom.trim() !== '') {
+      return custom.trim().replace(/\/+$/, '');
+    }
+  }
+  const envUrl = (import.meta.env.VITE_SPUTNIK_API_URL || '').trim();
+  return envUrl.replace(/\/+$/, '');
+}
+
+/**
+ * Saves a user custom backend URL to localStorage (or clears it if null/empty).
+ */
+export function setBackendBaseUrl(url: string | null): void {
+  if (typeof window !== 'undefined') {
+    if (url === null || url.trim() === '') {
+      window.localStorage.removeItem('sputnik_backend_url');
+    } else {
+      window.localStorage.setItem('sputnik_backend_url', url.trim().replace(/\/+$/, ''));
+    }
+  }
+}
+
+/**
+ * Pings /api/health to inspect live backend connectivity, latency, and model readiness.
+ */
+export async function checkBackendHealth(): Promise<BackendStatus> {
+  const baseUrl = getBackendBaseUrl();
+  const startTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
+  try {
+    const endpoint = baseUrl ? `${baseUrl}/api/health` : '/api/health';
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(4000),
+    });
+
+    const latencyMs = Math.round((typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime);
+
+    if (response.ok) {
+      const data: HealthResponse = await response.json();
+      return {
+        isConnected: true,
+        url: baseUrl || (typeof window !== 'undefined' ? window.location.origin : ''),
+        latencyMs,
+        details: data,
+        lastChecked: new Date(),
+      };
+    }
+    return {
+      isConnected: false,
+      url: baseUrl || '',
+      latencyMs,
+      error: `HTTP ${response.status} ${response.statusText}`,
+      lastChecked: new Date(),
+    };
+  } catch (err: any) {
+    const latencyMs = Math.round((typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime);
+    return {
+      isConnected: false,
+      url: baseUrl || '',
+      latencyMs,
+      error: err?.message || 'Connection failed',
+      lastChecked: new Date(),
+    };
+  }
+}
 
 /**
  * Normalizes query string for TF-IDF token matching
@@ -308,13 +384,15 @@ function synthesizeGroundedAnswer(
  * Main Chat & Intent Routing Endpoint Handler
  */
 export async function sendChatQuery(request: ChatRequest): Promise<ChatResponse> {
+  const baseUrl = getBackendBaseUrl();
   // If external FastAPI backend is configured, try calling it
-  if (BACKEND_BASE_URL) {
+  if (baseUrl) {
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/chat`, {
+      const response = await fetch(`${baseUrl}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request),
+        signal: AbortSignal.timeout(6000),
       });
       if (response.ok) {
         return await response.json();
@@ -352,9 +430,12 @@ export async function sendChatQuery(request: ChatRequest): Promise<ChatResponse>
  * Main Navigation Solver Endpoint Handler
  */
 export async function fetchWalkingRoute(originId: string, destinationId: string): Promise<NavigationResponse> {
-  if (BACKEND_BASE_URL) {
+  const baseUrl = getBackendBaseUrl();
+  if (baseUrl) {
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/navigate?from=${originId}&to=${destinationId}`);
+      const response = await fetch(`${baseUrl}/api/navigate?from=${originId}&to=${destinationId}`, {
+        signal: AbortSignal.timeout(4000),
+      });
       if (response.ok) {
         return await response.json();
       }
@@ -370,9 +451,12 @@ export async function fetchWalkingRoute(originId: string, destinationId: string)
  * Available Landmarks Endpoint Handler
  */
 export async function fetchLandmarks(): Promise<LandmarkNode[]> {
-  if (BACKEND_BASE_URL) {
+  const baseUrl = getBackendBaseUrl();
+  if (baseUrl) {
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/landmarks`);
+      const response = await fetch(`${baseUrl}/api/landmarks`, {
+        signal: AbortSignal.timeout(4000),
+      });
       if (response.ok) {
         return await response.json();
       }

@@ -1,15 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Header, ActiveTab } from './components/Header';
 import { ChatView } from './components/ChatView';
 import { WalkGuideView } from './components/WalkGuideView';
 import { FeedbackCorpusView } from './components/FeedbackCorpusView';
 import { SystemInitModal } from './components/SystemInitModal';
+import { checkBackendHealth } from './services/sputnikApi';
+import { BackendStatus } from './types/sputnik';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('chat');
   const [targetLandmarkId, setTargetLandmarkId] = useState<string | null>(null);
   const [showInitModal, setShowInitModal] = useState<boolean>(false);
   const [isFirstBoot, setIsFirstBoot] = useState<boolean>(true);
+  const [backendStatus, setBackendStatus] = useState<BackendStatus | null>(null);
+
+  // Poll backend health status
+  const refreshBackendHealth = useCallback(async () => {
+    try {
+      const status = await checkBackendHealth();
+      setBackendStatus(status);
+    } catch {
+      setBackendStatus({
+        isConnected: false,
+        url: '',
+        error: 'Backend unreachable',
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshBackendHealth();
+    // Re-check backend health periodically every 20 seconds
+    const interval = setInterval(refreshBackendHealth, 20000);
+    return () => clearInterval(interval);
+  }, [refreshBackendHealth]);
 
   // Check URL parameters: e.g. ?view=feedback or ?init=1
   useEffect(() => {
@@ -49,6 +73,7 @@ export default function App() {
             setTargetLandmarkId(null);
           }
         }}
+        isBackendConnected={backendStatus?.isConnected ?? false}
         onOpenSystemInit={() => {
           setIsFirstBoot(false);
           setShowInitModal(true);
@@ -72,12 +97,15 @@ export default function App() {
         )}
       </main>
 
-      {/* System Initialization Telemetry Modal */}
+      {/* System Initialization & Backend Telemetry Modal */}
       <SystemInitModal
         isOpen={showInitModal}
         onClose={() => setShowInitModal(false)}
         autoClose={isFirstBoot}
+        backendStatus={backendStatus}
+        onRefreshBackend={refreshBackendHealth}
       />
     </div>
   );
 }
+

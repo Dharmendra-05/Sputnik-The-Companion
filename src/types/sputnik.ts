@@ -114,3 +114,21 @@ export interface FeedbackSubmission {
   timestamp: string;
 }
 
+export interface HealthResponse {
+  status: string;
+  model_ready: boolean;
+  dataset_samples: number;
+  corpus_passages: number;
+  landmarks_count: number;
+  model_type: string;
+}
+
+export interface BackendStatus {
+  isConnected: boolean;
+  url: string;
+  latencyMs?: number;
+  details?: HealthResponse;
+  lastChecked?: Date;
+  error?: string;
+}
+
