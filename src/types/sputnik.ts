@@ -97,3 +97,20 @@ export interface HotspotContact {
   contact: string;
   scope: string;
 }
+
+export type FeedbackType =
+  | 'wrong_badge'
+  | 'missing_link'
+  | 'grassroot_update'
+  | 'route_correction';
+
+export interface FeedbackSubmission {
+  id: string;
+  feedbackType: FeedbackType;
+  domain?: MLIntentCategoryName;
+  query: string;
+  explanation: string;
+  referenceUrl?: string;
+  timestamp: string;
+}
+

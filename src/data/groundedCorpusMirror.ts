@@ -87,6 +87,22 @@ export const GROUNDED_DOCS: GroundedDoc[] = [
     keywords: ['mess', 'dining', 'food', 'breakfast', 'lunch', 'dinner', 'snacks', 'laundry', 'rebate', 'badminton', 'schedule'],
   },
   {
+    doc_id: 'doc_088',
+    category: 'Campus Facilities & Hostels',
+    url: 'https://iiitm.ac.in/mess-regulations',
+    title: 'Hostel Mess Constitution & Rotating Dietary Schedule',
+    text: 'Hostel Mess Constitution: Meal timings (Breakfast 07:30–09:30, Lunch 12:30–14:15, Snacks 17:00–18:00, Dinner 19:45–21:45). Weekly menu rotation decided by Student Mess Representatives.',
+    keywords: ['mess', 'dining', 'dinner', 'menu', 'today', 'meal', 'lunch', 'breakfast', 'schedule', 'rotation'],
+  },
+  {
+    doc_id: 'doc_112',
+    category: 'Campus Facilities & Hostels',
+    url: 'https://iiitm.ac.in/hostel-wardens',
+    title: 'Administrative Directory: Hostel Supervisors & Rebate Rules',
+    text: 'Administrative directory: Hostel supervisors, mess rebate protocols (minimum 3 days prior intimation to Mess Secretary), and emergency warden contacts.',
+    keywords: ['hostel', 'warden', 'rebate', 'mess secretary', 'contacts', 'supervisors'],
+  },
+  {
     doc_id: 'doc_144',
     category: 'Campus Facilities & Hostels',
     url: 'https://www.iiitm.ac.in/index.php/en/campus-life/boys-hostels',
