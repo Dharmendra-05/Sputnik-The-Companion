@@ -22,9 +22,10 @@
 
 **Sputnik — The Companion** is the official web companion interface for **Atal Bihari Vajpayee Indian Institute of Information Technology and Management (ABV-IIITM), Gwalior**.
 
-Engineered according to a zero-bloat, stark academic utility design system ([DESIGN.md](DESIGN.md)), Sputnik provides students, faculty, staff, and campus visitors with two specialized operational utilities:
+Engineered according to a zero-bloat, stark academic utility design system ([DESIGN.md](DESIGN.md)), Sputnik provides students, faculty, staff, and campus visitors with three specialized operational utilities:
 1. **Ask Sputnik**: A grounded Q&A utility that classifies queries into 5 canonical institutional domains using classical machine learning (Logistic Regression and Calibrated Linear SVM) and retrieves grounded institutional facts with official `iiitm.ac.in` citations.
 2. **Campus Walk Guide**: A topological shortest-path navigation system across the 160-acre campus grid, mapping 14 landmark vertices and 20 walkway edges using a client-side Dijkstra algorithm.
+3. **Feedback & Corpus Contribution**: A community-driven feedback portal allowing campus residents to report inaccuracies, flag missing links, contribute grassroot updates (such as daily rotating mess menus), and submit route corrections with structured clipboard exports.
 
 Sputnik is designed with a **zero-GPU, offline-first client mirror**: it executes fully in-browser using embedded statistical TF-IDF cosine matching and Dijkstra pathfinding, while seamlessly proxying to the external Python FastAPI backend (`Dharmendra-05/Sputnik`) whenever available.
 
@@ -51,6 +52,15 @@ Sputnik is designed with a **zero-GPU, offline-first client mirror**: it execute
 - **Turn-by-Turn Instruction Engine**: Generates ordered navigation steps, estimated walk durations, paved surface ratios, and shade factor percentages.
 - **Interactive SVG Canvas**: Visualizes campus topology on an 800×520 planar projection with animated active-path highlighting, compass heading (NORTH 000°), click-to-route selection, and one-click clipboard export.
 
+### 3. Community Feedback & Corpus Contribution
+- **Categorized Issue Reporting**: Select from `Wrong ML Category Badge`, `Missing / Broken Official Link`, `Grassroot Information Update`, or `Walking Route / Landmark Correction`.
+- **Institutional Domain Tagging**: Automatically attach verified queries to one of the 5 canonical academic domains.
+- **Structured Clipboard Export**: One-click formatted plain-text export for direct dispatch to repository maintainers or campus committees.
+- **Active Contribution Queue**: Real-time review queue tracking recently submitted community updates.
+
+### 4. Zero-GPU System Telemetry & Boot Diagnostic
+- **Real-Time Initialization Telemetry**: Click the brand logo or status badge in the header (or pass `?init=1` in the URL) to trigger a modal diagnostic of the client-side TF-IDF vectorizer, Dijkstra graph solver, and offline corpus status.
+
 ---
 
 ## 🏗️ Architecture & Tech Stack
@@ -64,17 +74,17 @@ Sputnik is designed with a **zero-GPU, offline-first client mirror**: it execute
                                           │  src/App.tsx  │
                                           └───────┬───────┘
                                                   │
-                         ┌────────────────────────┴────────────────────────┐
-                         ▼                                                 ▼
-          ┌─────────────────────────────┐                   ┌─────────────────────────────┐
-          │     Ask Sputnik View        │                   │    Campus Walk Guide        │
-          │    (src/components/Chat)    │                   │   (src/components/Walk)     │
-          └──────────────┬──────────────┘                   └──────────────┬──────────────┘
-                         │                                                 │
-          ┌──────────────┴──────────────┐                   ┌──────────────┴──────────────┐
-          ▼                             ▼                   ▼                             ▼
-  Browser TF-IDF / SVM          FastAPI Proxy       14-Landmark Graph        Dijkstra Shortest Path
-  (groundedCorpusMirror)        (sputnikApi.ts)     (campusGraphData.ts)      (computeShortestPath)
+                         ┌────────────────────────┼────────────────────────┐
+                         ▼                        ▼                        ▼
+          ┌────────────────────────┐┌────────────────────────┐┌────────────────────────┐
+          │    Ask Sputnik View    ││   Campus Walk Guide    ││ Feedback & Corpus View │
+          │ (src/components/Chat)  ││ (src/components/Walk)  ││(FeedbackCorpusView.tsx)│
+          └───────────┬────────────┘└───────────┬────────────┘└───────────┬────────────┘
+                      │                         │                         │
+          ┌───────────┴───────────┐ ┌───────────┴───────────┐ ┌───────────┴───────────┐
+          ▼                       ▼ ▼                       ▼ ▼                       ▼
+  Browser TF-IDF / SVM       FastAPI 14-Landmark Graph  Dijkstra  Submission Queue  Clipboard
+  (groundedCorpusMirror)     Proxy   (campusGraphData)  Shortest  (Local state)     Exporter
 ```
 
 - **Frontend Core**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) + [Vite 8](https://vitejs.dev/)
@@ -122,10 +132,12 @@ Sputnik-The-Companion/
     ├── assets/
     │   └── ASSET_MANIFEST.md # Asset slot documentation and backend integration guide
     ├── components/
-    │   ├── Header.tsx        # 56px utility header, view switcher, and backend status
+    │   ├── Header.tsx        # 56px utility header, 3-tab switcher, brand logo, telemetry trigger
     │   ├── ChatView.tsx      # Command query bar, model toggle, answer & fallback card
     │   ├── WalkGuideView.tsx # Landmark selectors, route metadata, turn-by-turn stepper
-    │   └── TopologyMapSVG.tsx# 160-acre interactive SVG canvas with active route pulses
+    │   ├── TopologyMapSVG.tsx# 160-acre interactive SVG canvas with active route pulses
+    │   ├── FeedbackCorpusView.tsx # Community grounded corpus contribution & correction queue
+    │   └── SystemInitModal.tsx    # Diagnostic telemetry modal for zero-GPU TF-IDF mirror
     ├── data/
     │   ├── campusGraphData.ts# 14 landmarks, 20 walkway edges, and Dijkstra solver
     │   ├── campusGraphData.test.ts # Algorithmic tests for pathfinding and nodes
@@ -133,7 +145,7 @@ Sputnik-The-Companion/
     ├── services/
     │   └── sputnikApi.ts     # Offline statistical ML mirror & FastAPI proxy client
     └── types/
-        └── sputnik.ts        # TypeScript data contracts and API types
+        └── sputnik.ts        # TypeScript data contracts, feedback types, and API types
 ```
 
 ---
@@ -166,7 +178,7 @@ Sputnik-The-Companion/
 4. **Run TypeScript check & tests**:
    ```bash
    npm run lint
-   node --test src/data/campusGraphData.test.ts
+   npx tsx --test src/data/campusGraphData.test.ts
    ```
 
 5. **Build for production**:
