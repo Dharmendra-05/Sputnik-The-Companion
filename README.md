@@ -22,7 +22,7 @@
 
 **Sputnik — The Companion** is the official web companion interface for **Atal Bihari Vajpayee Indian Institute of Information Technology and Management (ABV-IIITM), Gwalior**.
 
-Engineered according to a zero-bloat, stark academic utility design system ([DESIGN.md](DESIGN.md)), Sputnik provides students, faculty, staff, and campus visitors with three specialized operational utilities:
+Engineered according to a zero-bloat, stark academic utility design system ([DESIGN.md](DESIGN.md)) and documented system architecture ([ARCHITECTURE.md](ARCHITECTURE.md)), Sputnik provides students, faculty, staff, and campus visitors with three specialized operational utilities:
 1. **Ask Sputnik**: A grounded Q&A utility that classifies queries into 5 canonical institutional domains using classical machine learning (Logistic Regression and Calibrated Linear SVM) and retrieves grounded institutional facts with official `iiitm.ac.in` citations.
 2. **Campus Walk Guide**: A topological shortest-path navigation system across the 160-acre campus grid, mapping 14 landmark vertices and 20 walkway edges using a client-side Dijkstra algorithm.
 3. **Feedback & Corpus Contribution**: A community-driven feedback portal allowing campus residents to report inaccuracies, flag missing links, contribute grassroot updates (such as daily rotating mess menus), and submit route corrections with structured clipboard exports.
@@ -116,6 +116,8 @@ All schemas and contracts are strongly typed in [`src/types/sputnik.ts`](src/typ
 Sputnik-The-Companion/
 ├── .env.example              # Environment variables template
 ├── .gitignore                # Git exclusions (build artifacts, node_modules, envs)
+├── ARCHITECTURE.md           # Formal architectural specification and data flow
+├── CHANGELOG.md              # Semantic Versioning release and change history
 ├── DESIGN.md                 # Design system specification (ink, hairline, typography)
 ├── index.html                # Single-page application entry HTML
 ├── metadata.json             # Application capabilities metadata
