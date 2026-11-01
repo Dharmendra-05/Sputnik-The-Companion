@@ -6,7 +6,5 @@ coverage/
 *.log
 .env*
 !.env.example
-
-
 /.agents
 /.aistudio
