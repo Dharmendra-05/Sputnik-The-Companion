@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sputnik System Initialization</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['Geist Mono', 'JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            canvas: '#fafafa',
+            surface: '#ffffff',
+            ink: '#171717',
+            muted: '#888888',
+            subtle: '#4d4d4d',
+            hairline: '#ebebeb',
+            'hairline-strong': '#a1a1a1',
+            'chip-bg': '#f5f5f5',
+            emerald: {
+              text: '#047857',
+              bg: '#d1fae5',
+            }
+          },
+          boxShadow: {
+            'card-subtle': '0px 1px 1px rgba(0, 0, 0, 0.03), 0px 2px 4px rgba(0, 0, 0, 0.04)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.92); }
+    }
+    .active-dot-pulse {
+      animation: subtlePulse 1.6s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-canvas text-ink font-sans antialiased min-h-screen flex items-center justify-center p-4 selection:bg-neutral-200">
+
+  <!-- Centered System Initialization Card (Width: 420px) -->
+  <main class="w-full max-w-[420px] bg-surface rounded-[12px] border border-hairline shadow-card-subtle p-8 transition-all">
+    
+    <!-- Top Emblem: 56x56px rounded square -->
+    <div class="flex justify-center mb-5">
+      <div class="w-14 h-14 rounded-[10px] bg-[#fafafa] border border-hairline flex items-center justify-center">
+        <!-- Sputnik geometric satellite logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" class="text-ink">
+          <!-- Outer orbital dashed ring (4 segments, rounded caps, 2px stroke) -->
+          <circle cx="12" cy="12" r="9.5" stroke="#171717" stroke-width="2" stroke-dasharray="8 6.92" stroke-linecap="round"/>
+          <!-- 4 Diagonal telemetry tick marks pointing inward at 45, 135, 225, 315 degrees -->
+          <line x1="17.1" y1="6.9" x2="15.4" y2="8.6" stroke="#171717" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="17.1" y1="17.1" x2="15.4" y2="15.4" stroke="#171717" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="6.9" y1="17.1" x2="8.6" y2="15.4" stroke="#171717" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="6.9" y1="6.9" x2="8.6" y2="8.6" stroke="#171717" stroke-width="1.75" stroke-linecap="round"/>
+          <!-- Center core: inner ring (#171717 stroke, #ffffff fill) -->
+          <circle cx="12" cy="12" r="3.75" stroke="#171717" stroke-width="1.5" fill="#FFFFFF"/>
+          <!-- Solid 3px center satellite dot -->
+          <circle cx="12" cy="12" r="1.5" fill="#171717"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Identity Header & Monospace Institute Badge -->
+    <div class="text-center mb-1">
+      <div class="inline-flex items-center justify-center gap-2">
+        <h1 class="text-[20px] font-semibold tracking-[-0.03em] text-ink leading-tight">Sputnik</h1>
+        <span class="font-mono text-[11px] font-medium tracking-tight text-subtle bg-chip-bg border border-hairline px-2 py-0.5 rounded-[4px] uppercase">
+          ABV-IIITM GWALIOR
+        </span>
+      </div>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="text-[13px] text-muted text-center tracking-[-0.01em] mb-6">
+      Classical ML Intent Router &amp; Campus Navigation Engine
+    </p>
+
+    <!-- Minimalist Progress Bar (4px height, 100px pill radius, 78% progress) -->
+    <div class="mb-5">
+      <div class="w-full h-1 bg-hairline rounded-full overflow-hidden">
+        <div class="h-full bg-ink rounded-full" style="width: 78%;"></div>
+      </div>
+    </div>
+
+    <!-- Telemetry Boot Checklist Box -->
+    <div class="bg-canvas border border-hairline rounded-[8px] p-3.5 mb-5 font-mono text-[12px] space-y-2.5">
+      
+      <!-- Row 1: Verified Passages Indexed -->
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-4 h-4 rounded-[3px] bg-[#d1fae5] text-[#047857] flex-shrink-0">
+          <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+        <span class="text-ink tracking-tight truncate">Indexed 1,780 verified iiitm.ac.in passages</span>
+      </div>
+
+      <!-- Row 2: Loaded Intent Router -->
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-4 h-4 rounded-[3px] bg-[#d1fae5] text-[#047857] flex-shrink-0">
+          <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+        <span class="text-ink tracking-tight truncate">Loaded 5-class Intent Router (LogReg · 8ms)</span>
+      </div>
+
+      <!-- Row 3: Mounting Graph (Active Pulse Dot) -->
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-4 h-4 flex-shrink-0">
+          <span class="w-2 h-2 rounded-full bg-ink active-dot-pulse"></span>
+        </span>
+        <span class="text-ink tracking-tight truncate">Mounting 14-vertex Dijkstra campus graph...</span>
+      </div>
+
+    </div>
+
+    <!-- Bottom Telemetry Footer Row -->
+    <div class="flex items-center justify-between font-mono text-[11px] uppercase text-muted tracking-wider pt-1 border-t border-hairline">
+      <span class="tracking-[0.05em]">ZERO-GPU · DETERMINISTIC ENGINE</span>
+      <span class="font-medium text-ink">78%</span>
+    </div>
+
+  </main>
+
+</body>
+</html>

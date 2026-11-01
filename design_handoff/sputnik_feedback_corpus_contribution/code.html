@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Sputnik — ABV-IIITM Gwalior Campus Companion</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&amp;family=Geist:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+            mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #fafafa;
+      color: #171717;
+      font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body class="bg-[#fafafa] min-h-screen text-[#171717] font-sans antialiased">
+<!-- 1. Top Utility Header -->
+<header class="h-[56px] bg-[#ffffff] border-b border-[#ebebeb] px-6 sticky top-0 z-50 flex items-center justify-between">
+<!-- Left: Logo + Wordmark + Monospace Badge -->
+<div class="flex items-center gap-2.5">
+<div aria-hidden="true" class="w-[22px] h-[22px] flex items-center justify-center text-[#171717] flex-shrink-0">
+<svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-dasharray="7.5 6.63"></circle><line x1="6.34" y1="6.34" x2="8.5" y2="8.5" stroke="#171717" stroke-width="2" stroke-linecap="round"></line><line x1="17.66" y1="6.34" x2="15.5" y2="8.5" stroke="#171717" stroke-width="2" stroke-linecap="round"></line><line x1="17.66" y1="17.66" x2="15.5" y2="15.5" stroke="#171717" stroke-width="2" stroke-linecap="round"></line><line x1="6.34" y1="17.66" x2="8.5" y2="15.5" stroke="#171717" stroke-width="2" stroke-linecap="round"></line><circle cx="12" cy="12" r="3.5" fill="#ffffff" stroke="#171717" stroke-width="1.75"></circle><circle cx="12" cy="12" r="1.5" fill="#171717"></circle></svg>
+</div>
+<span class="text-[16px] font-semibold tracking-tight text-[#171717]">Sputnik</span>
+<span class="text-[11px] font-mono bg-[#f5f5f5] text-[#4d4d4d] px-2 py-0.5 rounded border border-[#ebebeb] tracking-normal font-medium">ABV-IIITM GWALIOR</span>
+</div>
+<!-- Right: Segmented 3-tab view switcher pill -->
+<nav aria-label="View Switcher" class="inline-flex items-center bg-[#f5f5f5] p-1 rounded-md border border-[#ebebeb] gap-1 text-xs">
+<button class="text-[#4d4d4d] px-3 py-1 hover:text-[#171717] transition-colors rounded" type="button">Ask Sputnik</button>
+<button class="text-[#4d4d4d] px-3 py-1 hover:text-[#171717] transition-colors rounded" type="button">Campus Walk Guide</button>
+<button aria-current="page" class="bg-[#171717] text-white font-medium px-3 py-1 rounded shadow-sm" type="button">Feedback &amp; Corpus</button>
+</nav>
+</header>
+<!-- 2. Centered Single-Column Container -->
+<main class="max-w-[768px] mx-auto py-8 px-4 flex flex-col gap-5">
+<!-- Section 2: External Google Docs Sync Banner -->
+<section class="bg-[#ffffff] border border-[#ebebeb] rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+<div class="flex flex-col min-w-0">
+<span class="text-[11px] font-mono uppercase tracking-wider text-[#888888] font-medium block mb-1">
+          CORPUS EXPANSION &amp; FEEDBACK LOG
+        </span>
+<p class="text-[14px] text-[#4d4d4d] leading-normal">
+          Help improve Sputnik's 1,780-passage dataset and campus grassroot coverage (mess menus, hostel rules, walking routes).
+        </p>
+</div>
+<div class="flex-shrink-0">
+<a class="shrink-0 bg-[#fafafa] hover:bg-[#f5f5f5] border border-[#a1a1a1] text-[#171717] text-[13px] font-medium px-3.5 py-2 rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap shadow-xs" href="https://docs.google.com" rel="noopener noreferrer" target="_blank">
+<span class="">Open Shared Google Doc</span>
+<span class="text-[11px] font-mono">↗</span>
+</a>
+</div>
+</section>
+<!-- Section 3: Main Structured Feedback Card -->
+<section class="bg-[#ffffff] border border-[#ebebeb] rounded-lg p-6 shadow-sm flex flex-col gap-6">
+<form class="flex flex-col gap-6" id="feedback-corpus-form" onsubmit="event.preventDefault();">
+<!-- PART 1: Select Feedback / Issue Type -->
+<div>
+<span class="text-[11px] font-mono uppercase tracking-wider text-[#888888] font-semibold block mb-3">
+            1. SELECT FEEDBACK / ISSUE TYPE
+          </span>
+<div aria-label="Feedback Type" class="grid grid-cols-1 md:grid-cols-2 gap-3" role="radiogroup">
+<!-- Option A (Selected / Active) -->
+<label class="radio-card border-[1.5px] border-[#171717] bg-[#fafafa] rounded-md p-3.5 flex items-start gap-3 cursor-pointer transition-all">
+<input checked="" class="sr-only" name="feedback_type" type="radio" value="wrong_badge">
+<div class="radio-indicator w-4 h-4 rounded-full border-2 border-[#171717] flex items-center justify-center mt-0.5 flex-shrink-0 bg-white">
+<span class="radio-dot w-2 h-2 rounded-full bg-[#171717]"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-[13px] font-semibold text-[#171717] card-title">Wrong Intent Category Badge</span>
+<span class="text-[12px] text-[#666666] leading-snug mt-0.5 card-desc">Query was routed to the wrong campus domain</span>
+</div>
+</label>
+<!-- Option B -->
+<label class="radio-card border border-[#ebebeb] hover:border-[#cccccc] bg-white rounded-md p-3.5 flex items-start gap-3 cursor-pointer transition-all">
+<input class="sr-only" name="feedback_type" type="radio" value="missing_link">
+<div class="radio-indicator w-4 h-4 rounded-full border border-[#cccccc] flex items-center justify-center mt-0.5 flex-shrink-0 bg-white">
+<span class="radio-dot w-2 h-2 rounded-full bg-[#171717] hidden"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-[13px] font-medium text-[#171717] card-title">Missing / Outdated iiitm.ac.in Link</span>
+<span class="text-[12px] text-[#666666] leading-snug mt-0.5 card-desc">Official circular, PDF, or webpage missing</span>
+</div>
+</label>
+<!-- Option C -->
+<label class="radio-card border border-[#ebebeb] hover:border-[#cccccc] bg-white rounded-md p-3.5 flex items-start gap-3 cursor-pointer transition-all">
+<input class="sr-only" name="feedback_type" type="radio" value="grassroot_update">
+<div class="radio-indicator w-4 h-4 rounded-full border border-[#cccccc] flex items-center justify-center mt-0.5 flex-shrink-0 bg-white">
+<span class="radio-dot w-2 h-2 rounded-full bg-[#171717] hidden"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-[13px] font-medium text-[#171717] card-title">Campus Grassroot Update (Mess / Hostels / Clubs)</span>
+<span class="text-[12px] text-[#666666] leading-snug mt-0.5 card-desc">Daily timings or student info not in static ordinances</span>
+</div>
+</label>
+<!-- Option D -->
+<label class="radio-card border border-[#ebebeb] hover:border-[#cccccc] bg-white rounded-md p-3.5 flex items-start gap-3 cursor-pointer transition-all">
+<input class="sr-only" name="feedback_type" type="radio" value="route_correction">
+<div class="radio-indicator w-4 h-4 rounded-full border border-[#cccccc] flex items-center justify-center mt-0.5 flex-shrink-0 bg-white">
+<span class="radio-dot w-2 h-2 rounded-full bg-[#171717] hidden"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-[13px] font-medium text-[#171717] card-title">Campus Map / Walking Route Correction</span>
+<span class="text-[12px] text-[#666666] leading-snug mt-0.5 card-desc">14-landmark Dijkstra path or distance issue</span>
+</div>
+</label>
+</div>
+</div>
+<!-- PART 2: Tag Relevant Campus ML Domain (Optional) -->
+<div>
+<span class="text-[11px] font-mono uppercase tracking-wider text-[#888888] font-semibold block mb-3">
+            2. TAG RELEVANT CAMPUS ML DOMAIN (OPTIONAL)
+          </span>
+<div aria-label="Campus ML Domains" class="flex flex-wrap gap-2" role="group">
+<button class="bg-[#e0f2fe] text-[#0369a1] text-xs font-medium px-3 py-1.5 rounded-full border border-[#bae6fd] hover:opacity-80 transition cursor-pointer" type="button">
+              Academics &amp; Curriculum
+            </button>
+<button class="bg-[#e0e7ff] text-[#4338ca] text-xs font-medium px-3 py-1.5 rounded-full border border-[#c7d2fe] hover:opacity-80 transition cursor-pointer" type="button">
+              Administration &amp; Governance
+            </button>
+<button class="bg-[#fef3c7] text-[#b45309] text-xs font-medium px-3 py-1.5 rounded-full border border-[#fde68a] hover:opacity-80 transition cursor-pointer" type="button">
+              Admissions &amp; Careers
+            </button>
+<!-- ACTIVE chip with checkmark -->
+<button class="bg-[#d1fae5] text-[#047857] text-xs font-semibold px-3 py-1.5 rounded-full border-2 border-[#047857] shadow-sm flex items-center gap-1.5 cursor-pointer" type="button">
+<svg class="w-3 h-3 text-[#047857] flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 12 12">
+<polyline points="2.5 6.5 4.5 8.5 9.5 3.5"></polyline>
+</svg>
+<span class="">Campus Facilities &amp; Hostels</span>
+</button>
+<button class="bg-[#ffe4e6] text-[#be123c] text-xs font-medium px-3 py-1.5 rounded-full border border-[#fecdd3] hover:opacity-80 transition cursor-pointer" type="button">
+              Events &amp; Notices
+            </button>
+</div>
+</div>
+<!-- PART 3: Explain The Issue Or Contribute Verified Data -->
+<div>
+<span class="text-[11px] font-mono uppercase tracking-wider text-[#888888] font-semibold block mb-3">
+            3. EXPLAIN THE ISSUE OR CONTRIBUTE VERIFIED DATA
+          </span>
+<div class="space-y-4">
+<!-- Input 1 -->
+<div>
+<label class="text-xs font-medium text-[#4d4d4d] block mb-1.5" for="query-input">
+                Query or Topic Tested
+              </label>
+<input class="h-10 px-3 w-full bg-white border border-[#ebebeb] rounded-md text-sm text-[#171717] focus:outline-none focus:border-[#171717] transition-colors placeholder:text-[#999999]" id="query-input" placeholder="e.g., What are the late night canteen timings near BH-1?" type="text">
+</div>
+<!-- Input 2 -->
+<div>
+<label class="text-xs font-medium text-[#4d4d4d] block mb-1.5" for="explanation-input">
+                Detailed Explanation / Correct Answer for Model Training
+              </label>
+<textarea class="h-[110px] p-3 w-full bg-white border border-[#a1a1a1] rounded-md text-sm text-[#171717] font-sans focus:outline-none focus:border-[#171717] resize-none transition-colors placeholder:text-[#999999]" id="explanation-input" placeholder="Explain the issue with the current output or provide the exact factual update so we can add it to cleaned_corpus.json..." rows="4"></textarea>
+</div>
+<!-- Input 3 -->
+<div>
+<label class="text-xs font-medium text-[#4d4d4d] block mb-1.5" for="reference-url-input">
+                Reference Official Link or Google Doc URL (Optional)
+              </label>
+<input class="h-10 px-3 w-full bg-white border border-[#ebebeb] rounded-md text-xs font-mono text-[#171717] focus:outline-none focus:border-[#171717] transition-colors placeholder:text-[#999999]" id="reference-url-input" placeholder="https://www.iiitm.ac.in/..." type="url">
+</div>
+</div>
+</div>
+<!-- Footer Action Row -->
+<div class="border-t border-[#ebebeb] pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-mono text-[#888888] tracking-tight">
+              Appends to training triage queue &amp; Google Docs log
+            </span>
+</div>
+<div class="flex items-center gap-3 self-end sm:self-auto">
+<button class="bg-white hover:bg-[#fafafa] border border-[#ebebeb] text-[#171717] text-xs font-medium px-3.5 py-2 rounded-md transition-colors shadow-xs" id="copy-entry-btn" type="button">
+              Copy Formatted Entry for Google Doc
+            </button>
+<button class="bg-[#171717] hover:bg-[#262626] text-white text-xs font-medium px-4 py-2 rounded-md shadow-sm transition-colors" id="submit-feedback-btn" type="submit">
+              Submit Feedback →
+            </button>
+</div>
+</div>
+</form>
+</section>
+</main>
+<script>
+    (function() {
+      // Interactive card radio behavior
+      const cards = document.querySelectorAll('.radio-card');
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          cards.forEach(c => {
+            c.classList.remove('border-[1.5px]', 'border-[#171717]', 'bg-[#fafafa]');
+            c.classList.add('border', 'border-[#ebebeb]', 'bg-white');
+            const ind = c.querySelector('.radio-indicator');
+            if (ind) {
+              ind.classList.remove('border-2', 'border-[#171717]');
+              ind.classList.add('border', 'border-[#cccccc]');
+            }
+            const dot = c.querySelector('.radio-dot');
+            if (dot) dot.classList.add('hidden');
+            const title = c.querySelector('.card-title');
+            if (title) {
+              title.classList.remove('font-semibold');
+              title.classList.add('font-medium');
+            }
+          });
+
+          card.classList.remove('border', 'border-[#ebebeb]', 'bg-white');
+          card.classList.add('border-[1.5px]', 'border-[#171717]', 'bg-[#fafafa]');
+          const activeInd = card.querySelector('.radio-indicator');
+          if (activeInd) {
+            activeInd.classList.remove('border', 'border-[#cccccc]');
+            activeInd.classList.add('border-2', 'border-[#171717]');
+          }
+          const activeDot = card.querySelector('.radio-dot');
+          if (activeDot) activeDot.classList.remove('hidden');
+          const activeTitle = card.querySelector('.card-title');
+          if (activeTitle) {
+            activeTitle.classList.remove('font-medium');
+            activeTitle.classList.add('font-semibold');
+          }
+          const input = card.querySelector('input[type="radio"]');
+          if (input) input.checked = true;
+        });
+      });
+
+      // Copy Formatted Entry handler
+      const copyBtn = document.getElementById('copy-entry-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const originalText = copyBtn.innerText;
+          const query = document.getElementById('query-input')?.value || 'N/A';
+          const details = document.getElementById('explanation-input')?.value || 'N/A';
+          const ref = document.getElementById('reference-url-input')?.value || 'N/A';
+          
+          const markdownText = `[SPUTNIK CORPUS CONTRIBUTION]\nQuery: ${query}\nExplanation/Correction: ${details}\nReference Link: ${ref}`;
+          navigator.clipboard.writeText(markdownText).then(() => {
+            copyBtn.innerText = 'Copied to Clipboard!';
+            setTimeout(() => {
+              copyBtn.innerText = originalText;
+            }, 1800);
+          });
+        });
+      }
+
+      // Submit feedback feedback animation
+      const submitBtn = document.getElementById('submit-feedback-btn');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+          const originalText = submitBtn.innerText;
+          submitBtn.innerText = 'Submitting...';
+          setTimeout(() => {
+            submitBtn.innerText = '✓ Queued for Ingestion';
+            submitBtn.classList.remove('bg-[#171717]');
+            submitBtn.classList.add('bg-[#047857]');
+            setTimeout(() => {
+              submitBtn.innerText = originalText;
+              submitBtn.classList.remove('bg-[#047857]');
+              submitBtn.classList.add('bg-[#171717]');
+            }, 2000);
+          }, 400);
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>
